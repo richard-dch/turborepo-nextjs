@@ -3,10 +3,14 @@
 import { Sidebar } from '@seeyou-eu/ui/components/navigation/sidebar';
 import { useState } from 'react';
 import { Home, Users, Calendar, BarChart3, Settings, Package, FileText, Mail, MessageSquare, Shield, Zap, Briefcase, Code2, Sparkles } from 'lucide-react';
-import styles from './page.module.css';
+import { useAppDispatch, useAppSelector } from '../store/hook';
+import { RootState } from '../store/store';
+import { decrement, increment } from '../store/features/counter/counterSlice';
 
 export default function Dashboard() {
 	const [demoExpanded, setDemoExpanded] = useState(false);
+	const count = useAppSelector((state: RootState) => state.counter.value);
+	const dispatch = useAppDispatch();
 
 	const customSections = [
 		{
@@ -62,6 +66,11 @@ export default function Dashboard() {
 				workspaceName="SEEYOU ADMIN"></Sidebar>
 
 			<div>SEEYOU Admin Dashboard</div>
+			<div>
+				<p>Count: {count}</p>
+				<button onClick={() => dispatch(increment())}>Increment</button>
+				<button onClick={() => dispatch(decrement())}>Decrement</button>
+			</div>
 		</div>
 	);
 }
